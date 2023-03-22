@@ -7,7 +7,7 @@ mod parse_log;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let log_path = "./src/example-logs/".to_string();
+    let log_path:String = "./src/example-logs/".to_string();
     parse_log::parse_log(log_path);
     HttpServer::new(|| {
         App::new()
