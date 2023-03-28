@@ -1,19 +1,19 @@
-use actix_web::{HttpResponse, Responder,Result, get, post, web};
+use actix_web::{Responder, Result, get, web::{self, Json}};
 
-use crate::lib;
+use crate::lib::{self, structures::LogUsers};
 
 
 
 
 #[get("/api/v1/info")]
-async fn info() -> Result<impl Responder> {
-    let obj = lib::structures::Reponse {
+pub async fn info() -> Result<impl Responder> {
+    let obj = lib::structures::Response {
         info:"This is an monitor overviewing current xp, it sits on the logfiles and displays its content nicely.".to_string(),
     };
     Ok(web::Json(obj))
 }
 
-#[post("/api/v1/log_names")]
-pub async fn echo(req_body: String) -> impl Responder {
-    HttpResponse::Ok().body(req_body)
+#[get("/api/v1/log_names")]
+pub async fn echo(req_body: LogUsers) -> Json<String>{
+    return web::Json(serde_json::json!(req_body).to_string())
 }
