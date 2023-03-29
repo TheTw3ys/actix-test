@@ -1,17 +1,17 @@
-use crate::lib::{self, structures::{LogUsers}};
-use serde_json::{self, Value, json};
-use std::{fs::{self, ReadDir}, collections::HashMap};
+use crate::lib::{structures::{LogUsers}};
+use serde_json::{self};
+use state::{Storage};
+use std::{fs::{self, ReadDir}, sync::RwLock};
 
-fn parse_files_to_object(server_jsons: ReadDir)-> LogUsers{
-    let mut state: LogUsers = lib::structures::LogUsers(HashMap::new());
+pub static SERVER_STATE :Storage<RwLock<LogUsers>>= Storage::new() ;
+fn parse_files_to_object(server_jsons: ReadDir){
     for file in server_jsons {
         let file_path = file.unwrap().path();
         let server_data:String = fs::read_to_string(file_path).expect("Unable to read file");
-        state = serde_json::from_str(&server_data).unwrap();
-        print!("{:#?}",json!(state).to_string())       
+        let state: LogUsers =serde_json::from_str(&server_data).unwrap(); 
+        SERVER_STATE.set(RwLock::new(state));
         }
-    return state
-    }
+        }
 
 
 pub fn parse_log(log_path: String) {

@@ -13,7 +13,7 @@ pub struct LogUser {
 }
 #[derive(Debug, Deserialize, Serialize)]
 pub struct LogUsers (pub HashMap<String, LogUser>);
-
+ 
 
 #[derive(Serialize)]
 pub struct Response {

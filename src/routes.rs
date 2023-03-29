@@ -1,6 +1,7 @@
-use actix_web::{Responder, Result, get, web::{self, Json}};
+use actix_web::{Responder, Result, get, web::{self,Json}};
+use serde_json::Value;
 
-use crate::lib::{self, structures::LogUsers};
+use crate::{lib::{self}, parse_log::SERVER_STATE};
 
 
 
@@ -14,6 +15,6 @@ pub async fn info() -> Result<impl Responder> {
 }
 
 #[get("/api/v1/log_names")]
-pub async fn echo(req_body: LogUsers) -> Json<String>{
-    return web::Json(serde_json::json!(req_body).to_string())
+pub async fn echo()-> Result<Json<Value>>{
+    Ok(web::Json(serde_json::json!(SERVER_STATE.get())))
 }
