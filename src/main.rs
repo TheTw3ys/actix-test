@@ -12,7 +12,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(routes::info)
-            .service(routes::echo)
+            .service(routes::logs)
+            .service(routes::log_names)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
