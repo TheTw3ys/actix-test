@@ -1,4 +1,5 @@
 use actix_web::{ App,  HttpServer};
+use actix_files::Files;
 mod routes;
 mod lib {
     pub mod structures;
@@ -14,6 +15,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::info)
             .service(routes::logs)
             .service(routes::log_names)
+            .service(Files::new("/","./public/").index_file("index.html"))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

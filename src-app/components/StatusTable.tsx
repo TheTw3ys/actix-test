@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import moment from "moment-timezone";
 import { Table } from "react-bootstrap";
-import { FullCurrentState } from "../lib/types";
+import { AllUsers, FullCurrentState } from "../lib/types";
 import { apiClient } from "../apiClient";
 import { TableHeadTriggerTooltip } from "./Tooltip";
 import "moment/locale/de";
@@ -14,10 +14,8 @@ type VPNStatusTableProps = {
 let i  = 0;
 export const VPNStatusTable = (props: VPNStatusTableProps) => {
   const parentRef = useRef();
-  let [state, setState] = useState<FullCurrentState>({
-    updatedAt: new Date(),
-    logname: "",
-    users: {},
+  let [state, setState] = useState<AllUsers>({
+    "": 
   });
 
 

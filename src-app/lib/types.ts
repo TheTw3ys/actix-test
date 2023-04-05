@@ -1,3 +1,6 @@
+  export type AllUsers = {
+    [name: string] : FullCurrentState
+  }
 export interface FullCurrentState extends Omit<CurrentState, "users"> {
     users: { [id: string]: FullUser };
   };

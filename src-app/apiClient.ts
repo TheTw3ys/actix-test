@@ -1,4 +1,4 @@
-import { FullCurrentState } from "./lib/types";
+import { AllUsers, FullCurrentState } from "./lib/types";
 
 type TInfo = {
     description: string;
@@ -15,7 +15,7 @@ class APIClient {
         return response.json();
       });
     }
-    async getState(logName: string): Promise<FullCurrentState> {
+    async getState(logName: string): Promise<AllUsers> {
         return fetch(`/api/v1/logs`).then((response) => {
           if (!response.ok) {
             throw new Error(response.statusText);
@@ -25,7 +25,7 @@ class APIClient {
       }
     
     async getVPNNames(): Promise<Array<string>> {
-      return fetch("/api/log_names").then((response) => {
+      return fetch("/api/v1/log_names").then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
