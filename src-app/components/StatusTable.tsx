@@ -14,14 +14,16 @@ type VPNStatusTableProps = {
 let i  = 0;
 export const VPNStatusTable = (props: VPNStatusTableProps) => {
   const parentRef = useRef();
-  let [state, setState] = useState<AllUsers>({
-    "": 
-  });
+  let [state, setState] = useState<FullCurrentState>();
+  state = {
+    users: {},
+    logname: props.logName,
+    updatedAt: new Date(Date.now())
 
-
+  };
   const poll = async () => {
-    const huba = await apiClient.getState(props.logName);
-    setState(huba);
+    const huba = await apiClient.getState();
+    setState(huba[props.logName])
   };
   if (i === 0) {
     console.log("polled once")
@@ -70,6 +72,7 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
 
         <tbody>
           {Object.keys(state.users).map((clientName) => {
+            if (state) {
             const client = state.users[clientName];
 
             return (
@@ -81,7 +84,7 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
                 <td align="center">{client.rank}</td>
               </tr>
             );
-          })}
+          }})}
         </tbody>
       </Table>
     </div>

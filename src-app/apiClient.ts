@@ -15,7 +15,7 @@ class APIClient {
         return response.json();
       });
     }
-    async getState(logName: string): Promise<AllUsers> {
+    async getState(): Promise<AllUsers> {
         return fetch(`/api/v1/logs`).then((response) => {
           if (!response.ok) {
             throw new Error(response.statusText);

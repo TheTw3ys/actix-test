@@ -54,7 +54,7 @@ fn parse_files_to_object(server_jsons: ReadDir){
     FULL_SERVER_STATE.set(RwLock::new(TFullState(full_state)));
     
         }
-    
+
 
 pub fn parse_log(log_path: String) {
     let log_paths = fs::read_dir(log_path).unwrap();
