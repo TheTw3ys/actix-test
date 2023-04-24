@@ -11,7 +11,7 @@ moment.locale("de");
 type VPNStatusTableProps = {
   logName: string;
 };
-let i  = 0;
+let i = 0;
 export const VPNStatusTable = (props: VPNStatusTableProps) => {
   const parentRef = useRef();
   let [state, setState] = useState<FullCurrentState>();
@@ -23,7 +23,12 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
   };
   const poll = async () => {
     const huba = await apiClient.getState();
-    setState(huba[props.logName])
+    let new_state = {};
+    Object.keys(huba).map((user_data) => {
+      if (user_data === props.logName){
+        console.log(user_data)
+        new_state[user_data] = huba[user_data];}
+    })
   };
   if (i === 0) {
     console.log("polled once")
@@ -73,18 +78,19 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
         <tbody>
           {Object.keys(state.users).map((clientName) => {
             if (state) {
-            const client = state.users[clientName];
+              const client = state.users[clientName];
 
-            return (
-              <tr>
-                <td align="center">{client.name}</td>
-                <td align="center">{client.id}</td>
-                <td align="center">{client.experience}</td>
-                <td align="center">{client.level}</td>
-                <td align="center">{client.rank}</td>
-              </tr>
-            );
-          }})}
+              return (
+                <tr>
+                  <td align="center">{client.name}</td>
+                  <td align="center">{client.id}</td>
+                  <td align="center">{client.experience}</td>
+                  <td align="center">{client.level}</td>
+                  <td align="center">{client.rank}</td>
+                </tr>
+              );
+            }
+          })}
         </tbody>
       </Table>
     </div>

@@ -1,5 +1,4 @@
 use std::{collections::HashMap};
-
 use serde::{Serialize, Deserialize};
 
 
@@ -23,7 +22,10 @@ pub struct RankedLogUser {
 pub struct LogUsers (pub HashMap<String, LogUser>); // used for deserializing *.json
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct RankedLogUsers (pub HashMap<String, RankedLogUser>);
+pub struct RankedLogUsers {
+    pub log_name: String,
+    pub users: Vec<RankedLogUser>,
+    pub updated_at: i64}
 
 
 #[derive(Debug, Deserialize, Serialize)]
