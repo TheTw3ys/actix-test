@@ -19,8 +19,9 @@ fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
         users: vec![]
     };
     for log_user in sorted_state_vec {
+        
         let user = log_user.1;
-
+        if !(user.experience == 0) {
         let full_user = RankedLogUser{
             id: user.id,
             name: user.name.to_string(),
@@ -32,9 +33,9 @@ fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
         ranked_users.users.push(full_user);
         
        rank+=1;
-    }
-    println!("{:#?}", ranked_users);
+    }}
     return ranked_users;
+
     }
 
 
@@ -52,15 +53,17 @@ fn parse_files_to_object(server_jsons: ReadDir){
         file_name.truncate(file_name.len()-5);
 
         let ranked_state:RankedLogUsers= rank_users(state, &file_name);
-        
         full_state.insert(file_name, ranked_state); 
         }
-    FULL_SERVER_STATE.set(RwLock::new(TFullState(full_state)));
+    FULL_SERVER_STATE.set(RwLock::new(TFullState(full_state.clone()))); // does not panic in threads
     
+    let mut new_full_state = FULL_SERVER_STATE.get().try_write().unwrap();
+    *new_full_state = TFullState(full_state.clone());
         }
 
 
 pub fn parse_log(log_path: String) {
     let log_paths = fs::read_dir(log_path).unwrap();
     parse_files_to_object(log_paths);
+    println!("lol{:#?}",FULL_SERVER_STATE.get().read().unwrap());
 }

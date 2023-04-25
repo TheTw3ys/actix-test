@@ -29,7 +29,7 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
     };
     Object.keys(huba).map((user_data) => {
       if (user_data === props.logName){
-        console.log(huba)
+        //console.log(huba)
         new_state = huba[props.logName];
         setState(new_state);}
     })
@@ -37,7 +37,7 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
   };
   if (i === 0) {
     poll();
-    console.log("polled once")
+    //console.log("polled once")
   }
 
   useEffect(() => {

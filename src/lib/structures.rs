@@ -10,7 +10,7 @@ pub struct LogUser {  // used for desierializing *.json
     pub experience: i32,
     pub level: i16,
 }
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RankedLogUser {
     pub id: i64,
     pub name: String,
@@ -21,7 +21,7 @@ pub struct RankedLogUser {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct LogUsers (pub HashMap<String, LogUser>); // used for deserializing *.json
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RankedLogUsers {
     pub log_name: String,
     pub users: Vec<RankedLogUser>,
