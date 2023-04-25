@@ -5,17 +5,17 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 type TableHeadTriggerTooltipProps = {
-  TooltipString: string;
+  tooltipstring: string;
   collumnname: string;
 };
 type TableLineTriggerTooltipProps = {
-  TooltipString: string;
+  tooltipstring: string;
   lineName: any;
 };
 export function TableHeadTriggerTooltip(props: TableHeadTriggerTooltipProps) {
   const renderTooltip = (
     <Tooltip id="table-tooltip" {...props}>
-      {props.TooltipString}
+      {props.tooltipstring}
     </Tooltip>
   );
 
@@ -32,7 +32,7 @@ export function TableHeadTriggerTooltip(props: TableHeadTriggerTooltipProps) {
 export function TableLineTriggerTooltip(props: TableLineTriggerTooltipProps) {
   const renderTooltip = (
     <Tooltip id="table-tooltip" {...props}>
-      {props.TooltipString}
+      {props.tooltipstring}
     </Tooltip>
   );
   moment.locale("en-gb");

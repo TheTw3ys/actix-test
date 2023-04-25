@@ -57,23 +57,23 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
         <thead>
           <tr>
             <TableHeadTriggerTooltip
-              TooltipString="The name of the user"
+              tooltipstring="The name of the user"
               collumnname="Username"
             />
             <TableHeadTriggerTooltip
-              TooltipString="The User-id of the User"
+              tooltipstring="The User-id of the User"
               collumnname="Id"
             />
             <TableHeadTriggerTooltip
-              TooltipString="The amount of experience the user has"
+              tooltipstring="The amount of experience the user has"
               collumnname="Exp"
             />
             <TableHeadTriggerTooltip
-              TooltipString="The Level of the User"
+              tooltipstring="The Level of the User"
               collumnname="Level"
             />
             <TableHeadTriggerTooltip
-              TooltipString="Their current position on the leaderboard"
+              tooltipstring="Their current position on the leaderboard"
               collumnname="Rank"
             />
           </tr>
@@ -81,13 +81,14 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
 
         <tbody>
           {state.users.map((user, index)=> {
+          index+=5;
           return (
-                <tr>
-                  <td align="center">{user.name} id={index}</td>
-                  <td align="center">{user.id} id={index}</td>
-                  <td align="center">{user.experience} id={index}</td>
-                  <td align="center">{user.level} id={index}</td>
-                  <td align="center">{user.rank} id={index}</td>
+                <tr key={index}>
+                  <td align="center" key={index+1}>{user.name} </td>
+                  <td align="center" key={index+2}>{user.id} </td>
+                  <td align="center" key={index+3}>{user.experience} </td>
+                  <td align="center" key={index+4}>{user.level} </td>
+                  <td align="center" key={index+5}>{user.rank} </td>
                 </tr>
               );
           })}

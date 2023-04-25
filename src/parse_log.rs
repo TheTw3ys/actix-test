@@ -21,7 +21,7 @@ fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
     for log_user in sorted_state_vec {
         
         let user = log_user.1;
-        if !(user.experience == 0) {
+        if !(user.level <= 5) {
         let full_user = RankedLogUser{
             id: user.id,
             name: user.name.to_string(),
