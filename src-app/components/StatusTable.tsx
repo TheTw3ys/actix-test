@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import moment from "moment-timezone";
 import { Table } from "react-bootstrap";
-import { AllUsers, FullCurrentState } from "../lib/types";
+import { LogState } from "../lib/types";
 import { apiClient } from "../apiClient";
 import { TableHeadTriggerTooltip } from "./Tooltip";
 import "moment/locale/de";
@@ -14,30 +14,34 @@ type VPNStatusTableProps = {
 let i = 0;
 export const VPNStatusTable = (props: VPNStatusTableProps) => {
   const parentRef = useRef();
-  let [state, setState] = useState<FullCurrentState>();
-  state = {
-    users: {},
-    logname: props.logName,
-    updatedAt: new Date(Date.now())
-
-  };
+  let [state, setState] = useState<LogState>({
+    updatedAt: new Date(),
+    logName: "",
+    users: [],
+  });
   const poll = async () => {
     const huba = await apiClient.getState();
-    let new_state = {};
+    
+    let new_state: LogState = {
+      logName: props.logName,
+      updatedAt: new Date(Date.now()),
+      users: [],
+    };
     Object.keys(huba).map((user_data) => {
       if (user_data === props.logName){
-        console.log(user_data)
-        new_state[user_data] = huba[user_data];}
+        console.log(huba)
+        new_state = huba[props.logName];
+        setState(new_state);}
     })
+    i++;
   };
   if (i === 0) {
-    console.log("polled once")
     poll();
+    console.log("polled once")
   }
 
   useEffect(() => {
     let timer = setInterval(poll, 10000);
-    i++
     return () => {
       clearTimeout(timer);
     };
@@ -76,20 +80,16 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
         </thead>
 
         <tbody>
-          {Object.keys(state.users).map((clientName) => {
-            if (state) {
-              const client = state.users[clientName];
-
-              return (
+          {state.users.map((user)=> {
+          return (
                 <tr>
-                  <td align="center">{client.name}</td>
-                  <td align="center">{client.id}</td>
-                  <td align="center">{client.experience}</td>
-                  <td align="center">{client.level}</td>
-                  <td align="center">{client.rank}</td>
+                  <td align="center">{user.name} </td>
+                  <td align="center">{user.id}</td>
+                  <td align="center">{user.experience}</td>
+                  <td align="center">{user.level}</td>
+                  <td align="center">{user.rank}</td>
                 </tr>
               );
-            }
           })}
         </tbody>
       </Table>

@@ -1,4 +1,4 @@
-import { AllUsers, FullCurrentState } from "./lib/types";
+import { LogState, AllLogStates  } from "./lib/types";
 
 type TInfo = {
     description: string;
@@ -15,7 +15,7 @@ class APIClient {
         return response.json();
       });
     }
-    async getState(): Promise<AllUsers> {
+    async getState(): Promise<AllLogStates> {
         return fetch(`/api/v1/logs`).then((response) => {
           if (!response.ok) {
             throw new Error(response.statusText);
