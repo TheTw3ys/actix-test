@@ -51,43 +51,43 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
     <div>
       <p>
         This Table was Updated at{" "}
-        {moment(new Date()).tz("Europe/Berlin").format("L LTS")}{" "}
+        {moment(new Date()).tz("Europe/Berlin").format("L LTS")}
       </p>
       <Table striped bordered hover>
         <thead>
           <tr>
             <TableHeadTriggerTooltip
               TooltipString="The name of the user"
-              collumnName="Username"
+              collumnname="Username"
             />
             <TableHeadTriggerTooltip
               TooltipString="The User-id of the User"
-              collumnName="Id"
+              collumnname="Id"
             />
             <TableHeadTriggerTooltip
               TooltipString="The amount of experience the user has"
-              collumnName="Exp"
+              collumnname="Exp"
             />
             <TableHeadTriggerTooltip
               TooltipString="The Level of the User"
-              collumnName="Level"
+              collumnname="Level"
             />
             <TableHeadTriggerTooltip
               TooltipString="Their current position on the leaderboard"
-              collumnName="Rank"
+              collumnname="Rank"
             />
           </tr>
         </thead>
 
         <tbody>
-          {state.users.map((user)=> {
+          {state.users.map((user, index)=> {
           return (
                 <tr>
-                  <td align="center">{user.name} </td>
-                  <td align="center">{user.id}</td>
-                  <td align="center">{user.experience}</td>
-                  <td align="center">{user.level}</td>
-                  <td align="center">{user.rank}</td>
+                  <td align="center">{user.name} id={index}</td>
+                  <td align="center">{user.id} id={index}</td>
+                  <td align="center">{user.experience} id={index}</td>
+                  <td align="center">{user.level} id={index}</td>
+                  <td align="center">{user.rank} id={index}</td>
                 </tr>
               );
           })}

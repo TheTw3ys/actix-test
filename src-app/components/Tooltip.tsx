@@ -6,7 +6,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 
 type TableHeadTriggerTooltipProps = {
   TooltipString: string;
-  collumnName: string;
+  collumnname: string;
 };
 type TableLineTriggerTooltipProps = {
   TooltipString: string;
@@ -25,7 +25,7 @@ export function TableHeadTriggerTooltip(props: TableHeadTriggerTooltipProps) {
       delay={{ show: 250, hide: 20 }}
       overlay={renderTooltip}
     >
-      <th>{props.collumnName}</th>
+      <th>{props.collumnname}</th>
     </OverlayTrigger>
   );
 }
