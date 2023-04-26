@@ -16,7 +16,7 @@ This tool provides a visual way to show the ranking of all Discord servers. Prov
 
   # install dependencies
   yarn install
-  cargo install # optional will automatically install with yarn dev
+  cargo build # optional will automatically install with yarn dev
 
   # start the service
   yarn start
