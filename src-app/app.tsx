@@ -14,14 +14,15 @@ let i = 0;
 var App = () => {
   let [VPNNames, setVPNNames] = useState<Array<string>>([]);
   const parentRef = useRef();
-  var pollVPNNames = async () => {
+  const pollVPNNames = async () => {
     let names = await apiClient.getVPNNames(); 
     setVPNNames(names);
     console.log(VPNNames.map((logs)=>{return logs}));
     i++;
   };
-  if (i == 0){
+  if (i === 0){
     pollVPNNames();
+    
   }
   useEffect(() => {
     let timer = setInterval(pollVPNNames, 20000);
