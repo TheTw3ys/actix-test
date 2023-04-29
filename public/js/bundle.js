@@ -27830,7 +27830,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
         return response.json();
       });
     }
-    async getState(logName) {
+    async getState() {
       return fetch(`/api/v1/logs`).then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
@@ -27839,7 +27839,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
       });
     }
     async getVPNNames() {
-      return fetch("/api/log_names").then((response) => {
+      return fetch("/api/v1/log_names").then((response) => {
         if (!response.ok) {
           throw new Error(response.statusText);
         }
@@ -33616,12 +33616,12 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     const renderTooltip = /* @__PURE__ */ import_react45.default.createElement(Tooltip_default, {
       id: "table-tooltip",
       ...props
-    }, props.TooltipString);
+    }, props.tooltipstring);
     return /* @__PURE__ */ import_react45.default.createElement(OverlayTrigger_default, {
       placement: "top",
       delay: { show: 250, hide: 20 },
       overlay: renderTooltip
-    }, /* @__PURE__ */ import_react45.default.createElement("th", null, props.collumnName));
+    }, /* @__PURE__ */ import_react45.default.createElement("th", null, props.collumnname));
   }
 
   // src-app/components/StatusTable.tsx
@@ -33633,56 +33633,72 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     const parentRef = (0, import_react46.useRef)();
     let [state, setState] = (0, import_react46.useState)({
       updatedAt: new Date(),
-      logname: "",
-      users: {}
+      logName: "",
+      users: []
     });
     const poll = async () => {
-      const huba = await apiClient.getState(props.logName);
-      setState(huba);
+      const huba = await apiClient.getState();
+      let new_state = {
+        logName: props.logName,
+        updatedAt: new Date(Date.now()),
+        users: []
+      };
+      Object.keys(huba).map((user_data) => {
+        if (user_data === props.logName) {
+          new_state = huba[props.logName];
+          setState(new_state);
+        }
+      });
+      i++;
     };
     if (i === 0) {
-      console.log("polled once");
       poll();
     }
     (0, import_react46.useEffect)(() => {
       let timer = setInterval(poll, 1e4);
-      i++;
       return () => {
         clearTimeout(timer);
       };
     }, [parentRef]);
-    return /* @__PURE__ */ import_react46.default.createElement("div", null, /* @__PURE__ */ import_react46.default.createElement("p", null, "This Table was Updated at", " ", (0, import_moment_timezone.default)(new Date()).tz("Europe/Berlin").format("L LTS"), " "), /* @__PURE__ */ import_react46.default.createElement(Table_default, {
+    return /* @__PURE__ */ import_react46.default.createElement("div", null, /* @__PURE__ */ import_react46.default.createElement("p", null, "This Table was Updated at", " ", (0, import_moment_timezone.default)(new Date()).tz("Europe/Berlin").format("L LTS")), /* @__PURE__ */ import_react46.default.createElement(Table_default, {
       striped: true,
       bordered: true,
       hover: true
     }, /* @__PURE__ */ import_react46.default.createElement("thead", null, /* @__PURE__ */ import_react46.default.createElement("tr", null, /* @__PURE__ */ import_react46.default.createElement(TableHeadTriggerTooltip, {
-      TooltipString: "The name of the user",
-      collumnName: "Username"
+      tooltipstring: "The name of the user",
+      collumnname: "Username"
     }), /* @__PURE__ */ import_react46.default.createElement(TableHeadTriggerTooltip, {
-      TooltipString: "The User-id of the User",
-      collumnName: "Id"
+      tooltipstring: "The User-id of the User",
+      collumnname: "Id"
     }), /* @__PURE__ */ import_react46.default.createElement(TableHeadTriggerTooltip, {
-      TooltipString: "The amount of experience the user has",
-      collumnName: "Exp"
+      tooltipstring: "The amount of experience the user has",
+      collumnname: "Exp"
     }), /* @__PURE__ */ import_react46.default.createElement(TableHeadTriggerTooltip, {
-      TooltipString: "The Level of the User",
-      collumnName: "Level"
+      tooltipstring: "The Level of the User",
+      collumnname: "Level"
     }), /* @__PURE__ */ import_react46.default.createElement(TableHeadTriggerTooltip, {
-      TooltipString: "Their current position on the leaderboard",
-      collumnName: "Rank"
-    }))), /* @__PURE__ */ import_react46.default.createElement("tbody", null, Object.keys(state.users).map((clientName) => {
-      const client = state.users[clientName];
-      return /* @__PURE__ */ import_react46.default.createElement("tr", null, /* @__PURE__ */ import_react46.default.createElement("td", {
-        align: "center"
-      }, client.name), /* @__PURE__ */ import_react46.default.createElement("td", {
-        align: "center"
-      }, client.id), /* @__PURE__ */ import_react46.default.createElement("td", {
-        align: "center"
-      }, client.experience), /* @__PURE__ */ import_react46.default.createElement("td", {
-        align: "center"
-      }, client.level), /* @__PURE__ */ import_react46.default.createElement("td", {
-        align: "center"
-      }, client.rank));
+      tooltipstring: "Their current position on the leaderboard",
+      collumnname: "Rank"
+    }))), /* @__PURE__ */ import_react46.default.createElement("tbody", null, state.users.map((user, index) => {
+      index += 5;
+      return /* @__PURE__ */ import_react46.default.createElement("tr", {
+        key: index
+      }, /* @__PURE__ */ import_react46.default.createElement("td", {
+        align: "center",
+        key: index + 1
+      }, user.name, " "), /* @__PURE__ */ import_react46.default.createElement("td", {
+        align: "center",
+        key: index + 2
+      }, user.id, " "), /* @__PURE__ */ import_react46.default.createElement("td", {
+        align: "center",
+        key: index + 3
+      }, user.experience, " "), /* @__PURE__ */ import_react46.default.createElement("td", {
+        align: "center",
+        key: index + 4
+      }, user.level, " "), /* @__PURE__ */ import_react46.default.createElement("td", {
+        align: "center",
+        key: index + 5
+      }, user.rank, " "));
     }))));
   };
 
@@ -33690,9 +33706,9 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   var import_de2 = __toESM(require_de());
   import_moment2.default.locale("de");
   var App = () => {
-    var [VPNNames, setVPNNames] = (0, import_react47.useState)([]);
+    let [VPNNames, setVPNNames] = (0, import_react47.useState)([]);
     var pollVPNNames = async () => {
-      var names = await apiClient.getVPNNames();
+      let names = await apiClient.getVPNNames();
       setVPNNames(names);
     };
     (0, import_react47.useEffect)(() => {

@@ -1,6 +1,6 @@
 {
     "name": "duccbot-display",
-    "version": "0.1",
+    "version": "1.0",
     "description": "To show rankings of the DuccBot Ranking system nicely",
     "main": "server.js",
     "repository": "git@github.com:TheTw3ys/DuccBot-Display.git",

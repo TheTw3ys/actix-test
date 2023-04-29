@@ -4,11 +4,11 @@ use std::{fs::{self, ReadDir}, sync::RwLock, collections::HashMap, path::Path};
 
 use crate::lib::structures::{TFullState, LogUsers, RankedLogUsers, RankedLogUser};
 
-//pub static SERVER_STATE :Storage<RwLock<LogUsers>>= Storage::new();
-pub static FULL_SERVER_STATE: Storage<RwLock<TFullState>> = Storage::new();
+pub static FULL_SERVER_STATE: Storage<RwLock<TFullState>> = Storage::new(); // creates a static variable, which will be given to the routes.rs sercvice
 
 
 fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
+    /// This function ranks each user by how much experience he gathered
     let mut sorted_state_vec: Vec<_> = state.0.iter().collect();
     
     sorted_state_vec.sort_by(|a,b| b.1.experience.cmp(&a.1.experience));
@@ -29,7 +29,6 @@ fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
             level: user.level,
             rank: rank
         };
-        //println!("{:#?}",full_user);
         ranked_users.users.push(full_user);
         
        rank+=1;
@@ -43,6 +42,7 @@ fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
 
 
 fn parse_files_to_object(server_jsons: ReadDir){
+    /// This function reads all logs and puts them in a HashMap
     let mut full_state:HashMap<String, RankedLogUsers>= HashMap::new();
     for file in server_jsons{
         let file_path = &file.unwrap().path();
@@ -55,8 +55,9 @@ fn parse_files_to_object(server_jsons: ReadDir){
         let ranked_state:RankedLogUsers= rank_users(state, &file_name);
         full_state.insert(file_name, ranked_state); 
         }
-    FULL_SERVER_STATE.set(RwLock::new(TFullState(full_state.clone()))); // does not panic in threads
+    FULL_SERVER_STATE.set(RwLock::new(TFullState(full_state.clone()))); // does not panic in threads so can be set here in loop
     
+    /// This overwrites the global static which will be ran in every loop
     let mut new_full_state = FULL_SERVER_STATE.get().try_write().unwrap();
     *new_full_state = TFullState(full_state.clone());
         }

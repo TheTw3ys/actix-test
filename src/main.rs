@@ -1,3 +1,4 @@
+#![allow(unused)]
 use actix_web::{ App,  HttpServer};
 use actix_rt::spawn;
 use actix_rt::time::{interval};
@@ -10,10 +11,14 @@ mod lib {
 mod parse_log;
 
 #[actix_web::main]
+
 async fn main() -> std::io::Result<()> {
+    /// This is the main function, which starts the Actix-webserver
    
     spawn(async move {
-        let mut interval = interval(time::Duration::from_secs(10));
+        /// This is an internal actix-web threading aproach designated to rerun 
+        /// parse_log indefinetely every 5 seconds
+        let mut interval = interval(time::Duration::from_secs(5));
         loop {
           interval.tick().await;
           let log_path:String = "./src/example-logs/".to_string();
@@ -22,10 +27,13 @@ async fn main() -> std::io::Result<()> {
         }
     });
     HttpServer::new(|| {
+        /// The Web-Server starts here
         App::new()
+        // These services serve the whole API
             .service(routes::info)
             .service(routes::logs)
             .service(routes::log_names)
+        // This serves a static HTML-site which gets reshaded by the React-App
             .service(Files::new("/","./public/").index_file("index.html"))
     })
     .bind(("127.0.0.1", 8080))?
