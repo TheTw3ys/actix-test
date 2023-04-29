@@ -10,7 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "moment/locale/de";
 
 moment.locale("de");
-
+let i = 0;
 var App = () => {
   let [VPNNames, setVPNNames] = useState<Array<string>>([]);
   const parentRef = useRef();
@@ -18,15 +18,19 @@ var App = () => {
     let names = await apiClient.getVPNNames(); 
     setVPNNames(names);
     console.log(VPNNames.map((logs)=>{return logs}));
+    i++;
   };
-
+  if (i == 0){
+    pollVPNNames();
+  }
   useEffect(() => {
-    let timer = setInterval(pollVPNNames, 10000);
+    let timer = setInterval(pollVPNNames, 20000);
     return () => {
       clearTimeout(timer);
     };
   }, [parentRef]
   )
+  
 
   return (
     <div>
