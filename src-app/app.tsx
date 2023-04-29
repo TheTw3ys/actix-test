@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
 import moment from "moment";
 import ReactDOM from "react-dom";
 import { apiClient } from "./apiClient";
 import { BrowserRouter } from "react-router-dom";
-import { VPNStatusTable } from "./components/StatusTable";
 import { Container, Tabs, Tab } from "react-bootstrap";
+import { VPNStatusTable } from "./components/StatusTable";
+import React, { useEffect, useRef, useState } from "react";
+
 
 import "moment/locale/de";
 
@@ -12,15 +13,20 @@ moment.locale("de");
 
 var App = () => {
   let [VPNNames, setVPNNames] = useState<Array<string>>([]);
-
+  const parentRef = useRef();
   var pollVPNNames = async () => {
-    let names = await apiClient.getVPNNames(); // old names dont get removed.
+    let names = await apiClient.getVPNNames(); 
     setVPNNames(names);
+    console.log(VPNNames.map((logs)=>{return logs}));
   };
 
   useEffect(() => {
-    pollVPNNames();
-  }, []);
+    let timer = setInterval(pollVPNNames, 10000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [parentRef]
+  )
 
   return (
     <div>

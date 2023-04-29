@@ -3,6 +3,7 @@ use actix_web::{ App,  HttpServer};
 use actix_rt::spawn;
 use actix_rt::time::{interval};
 use std::time;
+use std::env::{self, VarError};
 use actix_files::Files;
 mod routes;
 mod lib {
@@ -14,16 +15,14 @@ mod parse_log;
 
 async fn main() -> std::io::Result<()> {
     /// This is the main function, which starts the Actix-webserver
-   
     spawn(async move {
         /// This is an internal actix-web threading aproach designated to rerun 
         /// parse_log indefinetely every 5 seconds
         let mut interval = interval(time::Duration::from_secs(5));
         loop {
           interval.tick().await;
-          let log_path:String = "./src/example-logs/".to_string();
+          let log_path:String = "./example-logs/".to_string();
           parse_log::parse_log(log_path);
-    
         }
     });
     HttpServer::new(|| {
