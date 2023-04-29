@@ -8,16 +8,16 @@ use serde::{Serialize, Deserialize};
 pub struct LogUser {  // used for desierializing *.json
     pub id: i64,
     pub name: String,
-    pub experience: i32,
-    pub level: i16,
+    pub experience: i64,
+    pub level: i64,
 }
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RankedLogUser {
     pub id: i64,
     pub name: String,
-    pub experience: i32,
-    pub level: i16,
-    pub rank: i16
+    pub experience: i64,
+    pub level: i64,
+    pub rank: i64
 }
 #[derive(Debug, Deserialize, Serialize)]
 pub struct LogUsers (pub HashMap<String, LogUser>); // used for deserializing *.json
