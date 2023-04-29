@@ -24,5 +24,6 @@ pub async fn log_names()-> Result<Json<Value>>{
         for key in FULL_SERVER_STATE.get().read().unwrap().0.keys(){
             obj.0.push(key.to_string());
         }
+        obj.0.sort();
     Ok(web::Json(serde_json::json!(obj)))
 }
