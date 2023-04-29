@@ -2,6 +2,7 @@
 use actix_web::{ App,  HttpServer};
 use actix_rt::spawn;
 use actix_rt::time::{interval};
+use std::path::Path;
 use std::time;
 use std::env::{self, VarError};
 use actix_files::Files;
@@ -21,8 +22,9 @@ async fn main() -> std::io::Result<()> {
         let mut interval = interval(time::Duration::from_secs(5));
         loop {
           interval.tick().await;
-          let log_path:String = "./example-logs/".to_string();
-          parse_log::parse_log(log_path);
+          let log_path= Path::new("example-logs");
+          parse_log::parse_log(log_path.to_str().unwrap().to_string());
+          
         }
     });
     HttpServer::new(|| {
