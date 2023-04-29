@@ -35,7 +35,7 @@ async fn main() -> std::io::Result<()> {
             .service(routes::logs)
             .service(routes::log_names)
         // This serves a static HTML-site which gets reshaded by the React-App
-            .service(Files::new("/","./public/").index_file("index.html"))
+            .service(Files::new("/",(Path::new("public").to_str().unwrap())).index_file("index.html"))
     })
     .bind(("0.0.0.0", 42107))?
     .run()

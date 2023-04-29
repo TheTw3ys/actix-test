@@ -66,5 +66,5 @@ fn parse_files_to_object(server_jsons: ReadDir){
 pub fn parse_log(log_path: String) {
     let log_paths = fs::read_dir(log_path).unwrap();
     parse_files_to_object(log_paths);
-    println!("lol{:#?}",FULL_SERVER_STATE.get().read().unwrap());
+    //println!("lol{:#?}",FULL_SERVER_STATE.get().read().unwrap());
 }
