@@ -23,14 +23,5 @@ class APIClient {
       return response.json();
     });
   }
-
-  async getVPNNames(): Promise<Array<string>> {
-    return fetch("/api/v1/log_names").then((response) => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    });
-  }
 }
 export const apiClient = new APIClient();
