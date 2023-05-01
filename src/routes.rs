@@ -18,12 +18,5 @@ pub async fn info() -> Result<impl Responder> {
 pub async fn logs()-> Result<Json<Value>>{
     Ok(web::Json(serde_json::json!(FULL_SERVER_STATE.get())))
 }
-#[get("/api/v1/log_names")]
-pub async fn log_names()-> Result<Json<Value>>{
-    let mut obj:VpnNames = VpnNames(vec![]);
-        for key in FULL_SERVER_STATE.get().read().unwrap().0.keys(){
-            obj.0.push(key.to_string());
-        }
-        obj.0.sort();
-    Ok(web::Json(serde_json::json!(obj)))
-}
+
+

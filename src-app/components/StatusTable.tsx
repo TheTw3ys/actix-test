@@ -1,52 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import { TableHeadTriggerTooltip } from "./Tooltip";
+import { LogState } from "../lib/types";
 import moment from "moment-timezone";
 import { Table } from "react-bootstrap";
-import { LogState } from "../lib/types";
-import { apiClient } from "../apiClient";
-import { TableHeadTriggerTooltip } from "./Tooltip";
+moment.locale("de");
+import React from "react";
 import "moment/locale/de";
 import "moment/locale/en-gb";
-moment.locale("de");
 
-type VPNStatusTableProps = {
-  logName: string;
+type LogStatusTableProps = {
+  state: LogState;
 };
-let i = 0;
-export const VPNStatusTable = (props: VPNStatusTableProps) => {
-  const parentRef = useRef();
-  let [state, setState] = useState<LogState>({
-    updatedAt: new Date(),
-    logName: "",
-    users: [],
-  });
-  const poll = async () => {
-    const huba = await apiClient.getState();
-    
-    let new_state: LogState = {
-      logName: props.logName,
-      updatedAt: new Date(Date.now()),
-      users: [],
-    };
-    Object.keys(huba).map((user_data) => {
-      if (user_data === props.logName){
-        //console.log(huba)
-        new_state = huba[props.logName];
-        setState(new_state);}
-    })
-    i++;
-  };
-  if (i === 0) {
-    poll();
-    //console.log("polled once")
-  }
-
-  useEffect(() => {
-    let timer = setInterval(poll, 10000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [parentRef]);
-
+export const LogStatusTable = (props: LogStatusTableProps) => {
   return (
     <div>
       <p>
@@ -80,17 +44,27 @@ export const VPNStatusTable = (props: VPNStatusTableProps) => {
         </thead>
 
         <tbody>
-          {state.users.map((user, index)=> {
-          index+=5;
-          return (
-                <tr key={index}>
-                  <td align="center" key={index+1}>{user.name} </td>
-                  <td align="center" key={index+2}>{user.id} </td>
-                  <td align="center" key={index+3}>{user.experience} </td>
-                  <td align="center" key={index+4}>{user.level} </td>
-                  <td align="center" key={index+5}>{user.rank} </td>
-                </tr>
-              );
+          {props.state?.users.map((user, index) => {
+            index += 5;
+            return (
+              <tr key={index}>
+                <td align="justify" key={index + 1}>
+                  {user.name}{" "}
+                </td>
+                <td align="justify" key={index + 2}>
+                  {user.id}{" "}
+                </td>
+                <td align="justify" key={index + 3}>
+                  {user.experience}{" "}
+                </td>
+                <td align="justify" key={index + 4}>
+                  {user.level}{" "}
+                </td>
+                <td align="justify" key={index + 5}>
+                  {user.rank}{" "}
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </Table>

@@ -19,7 +19,7 @@ async fn main() -> std::io::Result<()> {
     spawn(async move {
         /// This is an internal actix-web threading aproach designated to rerun 
         /// parse_log indefinetely every 5 seconds
-        let mut interval = interval(time::Duration::from_secs(5));
+        let mut interval = interval(time::Duration::from_millis(2500));
         loop {
           interval.tick().await;
           let log_path= Path::new("example-logs");
@@ -33,7 +33,6 @@ async fn main() -> std::io::Result<()> {
         // These services serve the whole API
             .service(routes::info)
             .service(routes::logs)
-            .service(routes::log_names)
         // This serves a static HTML-site which gets reshaded by the React-App
             .service(Files::new("/",(Path::new("public").to_str().unwrap())).index_file("index.html"))
     })

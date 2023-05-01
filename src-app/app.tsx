@@ -3,35 +3,35 @@ import ReactDOM from "react-dom";
 import { apiClient } from "./apiClient";
 import { BrowserRouter } from "react-router-dom";
 import { Container, Tabs, Tab } from "react-bootstrap";
-import { VPNStatusTable } from "./components/StatusTable";
+import { LogStatusTable } from "./components/StatusTable";
 import React, { useEffect, useRef, useState } from "react";
 
-
 import "moment/locale/de";
+import { AllLogStates } from "./lib/types";
 
 moment.locale("de");
 let i = 0;
-var App = () => {
-  let [VPNNames, setVPNNames] = useState<Array<string>>([]);
+let App = () => {
   const parentRef = useRef();
-  const pollVPNNames = async () => {
-    let names = await apiClient.getVPNNames(); 
-    setVPNNames(names);
-    console.log(VPNNames.map((logs)=>{return logs}));
+  let [fullstate, setFullState] = useState<AllLogStates>({});
+
+  const poll = async () => {
+    console.log("updated full_state");
+    let new_state = await apiClient.getState();
+    setFullState(new_state);
     i++;
   };
-  if (i === 0){
-    pollVPNNames();
-    
+
+  if (i === 0) {
+    poll();
+    console.log("polled");
   }
   useEffect(() => {
-    let timer = setInterval(pollVPNNames, 20000);
+    let timer = setInterval(poll, 5000);
     return () => {
       clearTimeout(timer);
     };
-  }, [parentRef]
-  )
-  
+  }, [parentRef]);
 
   return (
     <div>
@@ -42,12 +42,16 @@ var App = () => {
         <p></p>
       </Container>
       <Container>
-        <Tabs defaultActiveKey={VPNNames[0]} id="VPNLog" className="mb-3">
-          {VPNNames.map((name) => {
+        <Tabs
+          defaultActiveKey={Object.keys(fullstate).entries[0]}
+          id="Log"
+          className="mb-3"
+        >
+          {Object.keys(fullstate).map((name) => {
             if (name !== "mfst" && name !== "faintmau5 server for tests") {
               return (
                 <Tab key={name} eventKey={name} title={name}>
-                  <VPNStatusTable logName={name} />
+                  <LogStatusTable state={fullstate[name]} />
                 </Tab>
               );
             }
