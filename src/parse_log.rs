@@ -10,7 +10,7 @@ pub static FULL_SERVER_STATE: Storage<RwLock<TFullState>> = Storage::new(); // c
 fn rank_users(state:LogUsers, file_name:&String) -> RankedLogUsers{
     /// This function ranks each user by how much experience he gathered
     let mut sorted_state_vec: Vec<_> = state.0.iter().collect();
-    
+    sorted_state_vec.sort_by(|a,b| b.1.name.cmp(&a.1.name));
     sorted_state_vec.sort_by(|a,b| b.1.experience.cmp(&a.1.experience));
     let mut rank = 1;
     let mut ranked_users:RankedLogUsers = RankedLogUsers{
