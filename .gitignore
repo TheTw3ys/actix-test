@@ -2,5 +2,5 @@ target
 node_modules
 public
 .vscode
-/Cargo.lock
+Cargo.lock
 /public/js

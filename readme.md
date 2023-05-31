@@ -4,7 +4,7 @@ This tool provides a visual way to show the ranking of all Discord servers. Prov
 
 ## requirements
 
-- [nodejs](https://nodejs.org) 16.0.0 or higher
+- [Rust](https://www.rust-lang.org/) 1.68.0 or higher
 - [yarn](https://classic.yarnpkg.com/lang/en/) 1.22.17 or higher
 - [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) 1.68.0 or higher
 

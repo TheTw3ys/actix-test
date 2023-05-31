@@ -15,11 +15,11 @@
     "build-app": "node scripts/build-app.mjs",
     "build-service": "cargo build",
     "pretty": "./node_modules/.bin/prettier --write \"**/*.{ts,js,mjs,json,tsx,md,yml}\"",
-    "start-docker": "docker run -p 3001:3000 -e PUBLIC_PATH=/usr/src/app/public -it --mount src=%cd%/example-logs,target=/usr/src/app/example-logs,type=bind n0vum/openvpn-monitor:v1.0.1-arm64",
-    "build-docker-amd64": "yarn build && DOCKER_BUILDKIT=1 BUILDKIT_PROGRESS=plain docker build --no-cache -t n0vum/openvpn-monitor:v1.0.1-amd64 --build-arg ARCH=amd64 .",
-    "build-docker-arm64": "yarn build && DOCKER_BUILDKIT=1 BUILDKIT_PROGRESS=plain docker build --no-cache -t n0vum/openvpn-monitor:v1.0.1-amd64 --build-arg ARCH=arm64 .",
-    "win-build-docker": "yarn build && docker build --no-cache -t n0vum/openvpn-monitor:v1.0.1-amd64 --build-arg ARCH=arm64 .",
-    "create-docker-manifest": "docker manifest create n0vum/openvpn-monitor:v1.0.1 --amend n0vum/openvpn-monitor:v1.0.1-amd64 --amend n0vum/openvpn-monitor:v1.0.1-arm64"
+    "start-docker": "docker run -p 42107:3000 -e PUBLIC_PATH=/usr/src/app/public -it --mount src=$PWD/example-logs,target=/usr/src/app/example-logs,type=bind meppi/duccbot-display:v1.0.1-amd64",
+    "build-docker-amd64": "yarn build && DOCKER_BUILDKIT=1 BUILDKIT_PROGRESS=plain docker build --no-cache -t meppi/duccbot-display:v1.0.1-amd64 --build-arg ARCH=amd64 .",
+    "build-docker-arm64": "yarn build && DOCKER_BUILDKIT=1 BUILDKIT_PROGRESS=plain docker build --no-cache -t meppi/duccbot-display:v1.0.1-amd64 --build-arg ARCH=arm64 .",
+    "win-build-docker": "yarn build && docker build --no-cache -t meppi/duccbot-display:v1.0.1-amd64 --build-arg ARCH=arm64 .",
+    "create-docker-manifest": "docker manifest create meppi/duccbot-display:v1.0.1 --amend meppi/duccbot-display:v1.0.1-amd64 --amend meppi/duccbot-display:v1.0.1-arm64"
   },
   "dependencies": {
     "esbuild": "^0.14.48",
