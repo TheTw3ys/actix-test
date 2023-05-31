@@ -1,5 +1,4 @@
 use std::{collections::HashMap};
-use chrono::{Utc, DateTime};
 use serde::{Serialize, Deserialize};
 
 
@@ -19,7 +18,7 @@ pub struct RankedLogUser {
     pub level: i64,
     pub rank: i64
 }
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Default)]
 pub struct LogUsers (pub HashMap<String, LogUser>); // used for deserializing *.json
 
 #[derive(Debug, Deserialize, Serialize, Clone)]

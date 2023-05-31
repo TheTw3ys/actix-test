@@ -48,7 +48,7 @@ fn parse_files_to_object(server_jsons: ReadDir){
         let file_path = &file.unwrap().path();
         let server_data:String = fs::read_to_string(file_path).expect("Unable to read file");
 
-        let state: LogUsers =serde_json::from_str(&server_data).unwrap(); 
+        let state: LogUsers =serde_json::from_str(&server_data).unwrap_or_default(); 
         let mut file_name= Path::new(&file_path).file_name().unwrap().to_str().unwrap().to_string();
         file_name.truncate(file_name.len()-5);
 

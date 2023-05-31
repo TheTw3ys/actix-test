@@ -4,7 +4,6 @@ use actix_rt::spawn;
 use actix_rt::time::{interval};
 use std::path::Path;
 use std::time;
-use std::env::{self, VarError};
 use actix_files::Files;
 mod routes;
 mod lib {
