@@ -1,7 +1,8 @@
 #![allow(unused)]
 use actix_web::{ App,  HttpServer};
 use actix_rt::spawn;
-use actix_rt::time::{interval};
+use actix_rt::time::interval;
+use mongodb::{options::ClientOptions, Client};
 use std::path::Path;
 use std::time;
 use actix_files::Files;
@@ -11,18 +12,31 @@ mod lib {
 }
 mod parse_log;
 
-#[actix_web::main]
+async fn get_db_connection() -> Client {
+    let mut client_options: ClientOptions = ClientOptions::parse("mongodb://localhost:27017").await.expect("Failed");
 
+// Manually set an option.
+client_options.app_name = Some("My App".to_string());
+
+// Get a handle to the deployment.
+let client: Client = Client::with_options(client_options).expect("Failed");
+return client;
+}
+
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     /// This is the main function, which starts the Actix-webserver
+
     spawn(async move {
         /// This is an internal actix-web threading aproach designated to rerun 
         /// parse_log indefinetely every 5 seconds
         let mut interval = interval(time::Duration::from_millis(2500));
         loop {
           interval.tick().await;
-          let log_path= Path::new("example-logs");
-          parse_log::parse_log(log_path.to_str().unwrap().to_string());
+          println!("Tick");
+          let client = get_db_connection().await;
+          parse_log::parse_log(client).await;
+          
           
         }
     });
