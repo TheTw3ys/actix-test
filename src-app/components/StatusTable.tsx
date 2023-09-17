@@ -11,10 +11,11 @@ type LogStatusTableProps = {
   state: LogState;
 };
 export const LogStatusTable = (props: LogStatusTableProps) => {
+  console.log(new Date(props.state.updated_at))
   return (
     <div>
       <p>
-        This Table was Updated at{" "}
+        This Table was Updated at
         {moment(new Date()).tz("Europe/Berlin").format("L LTS")}
       </p>
       <Table striped bordered hover>
