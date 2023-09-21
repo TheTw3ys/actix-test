@@ -47,7 +47,7 @@ let App = () => {
           id="Log"
           className="mb-3"
         >
-          {Object.keys(fullstate).sort().map((name) => {
+          {Object.keys(fullstate).map((name) => {
             if (name !== "mfst" && name !== "faintmau5 server for tests") {
               return (
                 <Tab key={name} eventKey={name} title={name}>

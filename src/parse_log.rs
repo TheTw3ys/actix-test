@@ -10,14 +10,9 @@ pub static FULL_SERVER_STATE: Storage<RwLock<TFullState>> = Storage::new(); // c
 pub async fn parse_log(mongodb_client: mongodb::Client) {
     let mut full_state:HashMap<String, RankedLogUsers>= HashMap::new();
     let database = mongodb_client.database("DuccBotRanking");
-    let mut db_names = database.list_collection_names(None).await.expect("Failed");
-    db_names.sort();
-    for collection_name in db_names {
+    for collection_name in database.list_collection_names(None).await.expect("Failed") {
         
         let collection: Collection<Document> = database.collection(&collection_name.clone());
-        let mut x = vec![];
-        for part in collection_name.split("-"){x.push(part)};
-        let guild_name = x[x.len()-1];
         let pipeline = vec![doc! {
            "$sort": {
               "experience": -1
@@ -25,7 +20,7 @@ pub async fn parse_log(mongodb_client: mongodb::Client) {
         }];
         let mut cursor = collection.aggregate(pipeline, None).await.expect("Error");
         let mut ranked_users: RankedLogUsers = RankedLogUsers {
-            log_name: guild_name.clone().to_string(),
+            log_name: collection_name.clone(),
             users: vec![],
             updated_at: chrono::Utc::now().timestamp(),
         };
@@ -42,7 +37,7 @@ pub async fn parse_log(mongodb_client: mongodb::Client) {
             rank += 1;
             ranked_users.users.push(user);
         }
-        full_state.insert(guild_name.clone().to_string() ,ranked_users.clone());
+        full_state.insert(collection_name.clone() ,ranked_users.clone());
        
     }
     //println!("{:#?}",full_state);
@@ -51,5 +46,5 @@ pub async fn parse_log(mongodb_client: mongodb::Client) {
     // This overwrites the global static which will be ran in every loop
     let mut new_full_state = FULL_SERVER_STATE.get().try_write().unwrap();
     *new_full_state = TFullState(full_state.clone());
-    //println!("{:?}", new_full_state)
+    println!("{:?}", new_full_state)
 }
