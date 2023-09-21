@@ -4,18 +4,21 @@ use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")] 
-pub struct LogUser {  // used for desierializing *.json
-    pub id: i64,
-    pub name: String,
-    pub experience: i64,
-    pub level: i64,
-}
+  // used for desierializing *.json
+pub struct LogUser  {
+        pub id: i64,
+        pub name: String,
+        pub experience: i32,
+        pub level: i32,
+    }
+    
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RankedLogUser {
     pub id: i64,
     pub name: String,
-    pub experience: i64,
-    pub level: i64,
+    pub experience: i32,
+    pub level: i32,
     pub rank: i64
 }
 #[derive(Debug, Deserialize, Serialize, Default)]

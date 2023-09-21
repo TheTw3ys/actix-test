@@ -7,7 +7,7 @@ export type User = {
 };
 
 export type LogState = {
-  updated_at: Date;
+  updated_at: number;
   log_name: String;
   users: Array<User>;
 };

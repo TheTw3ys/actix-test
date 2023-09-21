@@ -9,7 +9,7 @@
   "private": false,
   "scripts": {
     "watch": "yarn build-app --watch",
-    "dev": "yarn build && cargo run",
+    "dev": "set RUST_BACKTRACE=1 && yarn build && cargo run",
     "start": "yarn build-app && cargo run",
     "build": "yarn build-app && yarn build-service",
     "build-app": "node scripts/build-app.mjs",
