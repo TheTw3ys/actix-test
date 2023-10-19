@@ -4,3 +4,4 @@ public
 .vscode
 Cargo.lock
 /public/js
+docker-compose.yml
