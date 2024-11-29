@@ -46,7 +46,7 @@ async fn main() -> std::io::Result<()> {
         // These services serve the whole API
             .service(routes::info)
             .service(routes::logs)
-        // This serves a static HTML-site which gets reshaded by the React-App
+        // This serves a static HTML-site which gets overwritten by the React-App see Folder public\
             .service(Files::new("/",(Path::new("public").to_str().unwrap())).index_file("index.html"))
     })
     .bind(("0.0.0.0", 42107))?

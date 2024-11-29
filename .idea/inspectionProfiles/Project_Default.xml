@@ -1,0 +1,8 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myAdditionalRequiredHtmlAttributes" value="defaultShow,flip,onHide,onToggle,popperConfig,show,target,trigger,defaultShow,flip,onHide,onToggle,popperConfig,show,target,trigger" />
+    </inspection_tool>
+  </profile>
+</component>

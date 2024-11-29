@@ -13,12 +13,12 @@ moment.locale("de");
 let i = 0;
 let App = () => {
   const parentRef = useRef();
-  let [fullstate, setFullState] = useState<AllLogStates>({});
+  let [fullstate, setfullstate] = useState<AllLogStates>({});
 
   const poll = async () => {
     console.log("updated full_state");
     let new_state = await apiClient.getState();
-    setFullState(new_state);
+    setfullstate(new_state);
     i++;
   };
 
